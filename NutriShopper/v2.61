@@ -1,0 +1,554 @@
+project = 'imrec_v2_round2'
+experiment_name = 'exp12-1'
+description = "Swin Base based on SwinTransfer repo by Microsoft + HTC"
+
+classes = [
+    'beetroot-steamed-without-addition-of-salt', 'bread_wholemeal', 'jam',
+    'water', 'bread', 'banana', 'soft_cheese', 'ham_raw', 'hard_cheese',
+    'cottage_cheese', 'coffee', 'fruit_mixed', 'pancake', 'tea',
+    'salmon_smoked', 'avocado', 'spring_onion_scallion',
+    'ristretto_with_caffeine', 'ham_n_s', 'egg', 'bacon', 'chips_french_fries',
+    'juice_apple', 'chicken', 'tomato', 'broccoli', 'shrimp_prawn', 'carrot',
+    'chickpeas', 'french_salad_dressing', 'pasta_hornli_ch', 'sauce_cream',
+    'pasta_n_s', 'tomato_sauce', 'cheese_n_s', 'pear', 'cashew_nut', 'almonds',
+    'lentil_n_s', 'mixed_vegetables', 'peanut_butter', 'apple', 'blueberries',
+    'cucumber', 'yogurt', 'butter', 'mayonnaise', 'soup', 'wine_red',
+    'wine_white', 'green_bean_steamed_without_addition_of_salt', 'sausage',
+    'pizza_margherita_baked', 'salami_ch', 'mushroom', 'tart_n_s', 'rice',
+    'white_coffee', 'sunflower_seeds', 'bell_pepper_red_raw', 'zucchini',
+    'asparagus', 'tartar_sauce', 'lye_pretzel_soft', 'cucumber_pickled_ch',
+    'curry_vegetarian', 'soup_of_lentils_dahl_dhal', 'salmon',
+    'salt_cake_ch_vegetables_filled', 'orange', 'pasta_noodles',
+    'cream_double_cream_heavy_cream_45', 'cake_chocolate', 'pasta_spaghetti',
+    'black_olives', 'parmesan', 'spaetzle', 'salad_lambs_ear',
+    'salad_leaf_salad_green', 'potato', 'white_cabbage', 'halloumi',
+    'beetroot_raw', 'bread_grain', 'applesauce', 'cheese_for_raclette_ch',
+    'bread_white', 'curds_natural', 'quiche', 'beef_n_s',
+    'taboule_prepared_with_couscous', 'aubergine_eggplant', 'mozzarella',
+    'pasta_penne', 'lasagne_vegetable_prepared', 'mandarine', 'kiwi',
+    'french_beans', 'spring_roll_fried', 'caprese_salad_tomato_mozzarella',
+    'leaf_spinach', 'roll_of_half_white_or_white_flour_with_large_void',
+    'omelette_with_flour_thick_crepe_plain', 'tuna', 'dark_chocolate',
+    'sauce_savoury_n_s', 'raisins_dried', 'ice_tea_on_black_tea_basis', 'kaki',
+    'smoothie', 'crepe_with_flour_plain', 'nuggets',
+    'chili_con_carne_prepared', 'veggie_burger', 'chinese_cabbage',
+    'hamburger', 'soup_pumpkin', 'sushi', 'chestnuts_ch', 'sauce_soya',
+    'balsamic_salad_dressing', 'pasta_twist', 'bolognaise_sauce', 'leek',
+    'fajita_bread_only', 'potato_gnocchi', 'rice_noodles_vermicelli',
+    'bread_whole_wheat', 'onion', 'garlic', 'hummus',
+    'pizza_with_vegetables_baked', 'beer', 'glucose_drink_50g', 'ratatouille',
+    'peanut', 'cauliflower', 'green_olives', 'bread_pita', 'pasta_wholemeal',
+    'sauce_pesto', 'couscous', 'sauce', 'bread_toast',
+    'water_with_lemon_juice', 'espresso', 'egg_scrambled', 'juice_orange',
+    'braided_white_loaf_ch', 'emmental_cheese_ch',
+    'hazelnut_chocolate_spread_nutella_ovomaltine_caotina', 'tomme_ch',
+    'hazelnut', 'peach', 'figs',
+    'mashed_potatoes_prepared_with_full_fat_milk_with_butter', 'pumpkin',
+    'swiss_chard', 'red_cabbage_raw', 'spinach_raw',
+    'chicken_curry_cream_coconut_milk_curry_spices_paste', 'crunch_muesli',
+    'biscuit', 'meatloaf_ch', 'fresh_cheese_n_s', 'honey',
+    'vegetable_mix_peas_and_carrots', 'parsley', 'brownie', 'ice_cream_n_s',
+    'salad_dressing', 'dried_meat_n_s', 'chicken_breast',
+    'mixed_salad_chopped_without_sauce', 'feta', 'praline_n_s', 'walnut',
+    'potato_salad', 'kolhrabi', 'alfa_sprouts', 'brussel_sprouts',
+    'gruyere_ch', 'bulgur', 'grapes', 'chocolate_egg_small', 'cappuccino',
+    'crisp_bread', 'bread_black', 'rosti_n_s', 'mango', 'muesli_dry',
+    'spinach', 'fish_n_s', 'risotto', 'crisps_ch', 'pork_n_s', 'pomegranate',
+    'sweet_corn', 'flakes', 'greek_salad', 'sesame_seeds', 'bouillon',
+    'baked_potato', 'fennel', 'meat_n_s', 'croutons', 'bell_pepper_red_stewed',
+    'nuts', 'breadcrumbs_unspiced', 'fondue', 'sauce_mushroom', 'strawberries',
+    'pie_plum_baked_with_cake_dough', 'potatoes_au_gratin_dauphinois_prepared',
+    'capers', 'bread_wholemeal_toast', 'red_radish', 'fruit_tart',
+    'beans_kidney', 'sauerkraut', 'mustard', 'country_fries', 'ketchup',
+    'pasta_linguini_parpadelle_tagliatelle',
+    'chicken_cut_into_stripes_only_meat', 'cookies', 'sun_dried_tomatoe',
+    'bread_ticino_ch', 'semi_hard_cheese',
+    'porridge_prepared_with_partially_skimmed_milk', 'juice', 'chocolate_milk',
+    'bread_fruit', 'corn', 'dates', 'pistachio', 'cream_cheese_n_s',
+    'bread_rye', 'witloof_chicory', 'goat_cheese_soft', 'grapefruit_pomelo',
+    'blue_mould_cheese', 'guacamole', 'tofu', 'cordon_bleu', 'quinoa',
+    'kefir_drink', 'salad_rocket', 'pizza_with_ham_with_mushrooms_baked',
+    'fruit_coulis', 'plums', 'pizza_with_ham_baked', 'pineapple', 'seeds_n_s',
+    'focaccia', 'mixed_milk_beverage', 'coleslaw_chopped_without_sauce',
+    'sweet_potato', 'chicken_leg', 'croissant', 'cheesecake', 'sauce_cocktail',
+    'croissant_with_chocolate_filling', 'pumpkin_seeds', 'artichoke',
+    'soft_drink_with_a_taste', 'apple_pie',
+    'white_bread_with_butter_eggs_and_milk', 'savoury_pastry_stick',
+    'tuna_in_oil_drained', 'meat_terrine_pate', 'falafel_balls', 'berries_n_s',
+    'latte_macchiato', 'sugar_melon_galia_honeydew_cantaloupe',
+    'mixed_seeds_n_s', 'oil_vinegar_salad_dressing', 'celeriac',
+    'chocolate_mousse', 'lemon', 'chocolate_cookies',
+    'birchermuesli_prepared_no_sugar_added', 'muffin', 'pine_nuts',
+    'french_pizza_from_alsace_baked', 'chocolate_n_s',
+    'grits_polenta_maize_flour', 'wine_rose', 'cola_based_drink',
+    'raspberries', 'roll_with_pieces_of_chocolate', 'cake_lemon', 'rice_wild',
+    'gluten_free_bread', 'pearl_onion', 'tzatziki', 'ham_croissant_ch',
+    'corn_crisps', 'lentils_green_du_puy_du_berry', 'rice_whole_grain',
+    'cervelat_ch', 'aperitif_with_alcohol_n_s_aperol_spritz', 'peas',
+    'tiramisu', 'apricots', 'lasagne_meat_prepared', 'brioche',
+    'vegetable_au_gratin_baked', 'basil', 'butter_spread_puree_almond',
+    'pie_apricot', 'rusk_wholemeal', 'pasta_in_conch_form',
+    'pasta_in_butterfly_form_farfalle', 'damson_plum', 'shoots_n_s', 'coconut',
+    'banana_cake', 'sauce_curry', 'watermelon_fresh', 'white_asparagus',
+    'cherries', 'nectarine'
+]
+
+model = dict(
+    type='CascadeRCNN',
+    pretrained="https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth",
+    backbone=dict(
+        type='SwinTransformer',
+        embed_dim=128,
+        depths=[2, 2, 18, 2],
+        num_heads=[4, 8, 16, 32],
+        window_size=7,
+        mlp_ratio=4.0,
+        qkv_bias=True,
+        qk_scale=None,
+        drop_rate=0.0,
+        attn_drop_rate=0.0,
+        drop_path_rate=0.3,
+        ape=False,
+        patch_norm=True,
+        out_indices=(0, 1, 2, 3),
+        use_checkpoint=True),
+    neck=dict(
+        type='FPN',
+        in_channels=[128, 256, 512, 1024],
+        out_channels=256,
+        num_outs=5),
+    rpn_head=dict(
+        type='RPNHead',
+        in_channels=256,
+        feat_channels=256,
+        anchor_generator=dict(
+            type='AnchorGenerator',
+            scales=[8],
+            ratios=[0.5, 1.0, 2.0],
+            strides=[4, 8, 16, 32, 64]),
+        bbox_coder=dict(
+            type='DeltaXYWHBBoxCoder',
+            target_means=[0.0, 0.0, 0.0, 0.0],
+            target_stds=[1.0, 1.0, 1.0, 1.0]),
+        loss_cls=dict(
+            type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0),
+        loss_bbox=dict(
+            type='SmoothL1Loss', beta=0.1111111111111111, loss_weight=1.0)),
+    roi_head=dict(
+        type='HybridTaskCascadeRoIHead',
+        interleaved=True,
+        mask_info_flow=True,
+        num_stages=3,
+        stage_loss_weights=[1, 0.5, 0.25],
+        bbox_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=7, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        bbox_head=[
+            dict(
+                type='Shared2FCBBoxHead',
+                in_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=323,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.1, 0.1, 0.2, 0.2]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
+            dict(
+                type='Shared2FCBBoxHead',
+                in_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=323,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.05, 0.05, 0.1, 0.1]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
+            dict(
+                type='Shared2FCBBoxHead',
+                in_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=323,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.033, 0.033, 0.067, 0.067]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0))
+        ],
+        mask_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=14, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        mask_head=[
+            dict(
+                type='HTCMaskHead',
+                with_conv_res=False,
+                num_convs=4,
+                in_channels=256,
+                conv_out_channels=256,
+                num_classes=323,
+                loss_mask=dict(
+                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0)),
+            dict(
+                type='HTCMaskHead',
+                num_convs=4,
+                in_channels=256,
+                conv_out_channels=256,
+                num_classes=323,
+                loss_mask=dict(
+                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0)),
+            dict(
+                type='HTCMaskHead',
+                num_convs=4,
+                in_channels=256,
+                conv_out_channels=256,
+                num_classes=323,
+                loss_mask=dict(
+                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0))
+        ]
+    ),
+    train_cfg=dict(
+        rpn=dict(
+            assigner=dict(
+                type='MaxIoUAssigner',
+                pos_iou_thr=0.7,
+                neg_iou_thr=0.3,
+                min_pos_iou=0.3,
+                match_low_quality=True,
+                ignore_iof_thr=-1),
+            sampler=dict(
+                type='RandomSampler',
+                num=256,
+                pos_fraction=0.5,
+                neg_pos_ub=-1,
+                add_gt_as_proposals=False),
+            allowed_border=0,
+            pos_weight=-1,
+            debug=False),
+        rpn_proposal=dict(
+            nms_across_levels=False,
+            nms_pre=2000,
+            nms_post=2000,
+            max_per_img=2000,
+            nms=dict(type='nms', iou_threshold=0.7),
+            min_bbox_size=0),
+        rcnn=[
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.5,
+                    neg_iou_thr=0.5,
+                    min_pos_iou=0.5,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.6,
+                    neg_iou_thr=0.6,
+                    min_pos_iou=0.6,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.7,
+                    neg_iou_thr=0.7,
+                    min_pos_iou=0.7,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False)
+        ]),
+    test_cfg=dict(
+        rpn=dict(
+            nms_across_levels=False,
+            nms_pre=1000,
+            nms_post=1000,
+            max_per_img=1000,
+            nms=dict(type='nms', iou_threshold=0.4),
+            min_bbox_size=0),
+        rcnn=dict(
+            score_thr=0.001,
+            nms=dict(type='nms', iou_threshold=0.5),
+            max_per_img=50,
+            mask_thr_binary=0.5)))
+
+train_img_scale = [(401,400), (464,464), (480,480), (392,391), (1024,1024), 
+            (455,455), (479,479), (480,479), (853,853), (943,943)]
+test_img_scale = [(392,391), (400, 400), (480, 480), (853,853)]
+
+albu_train_transforms = [
+    dict(
+        type='ShiftScaleRotate',
+        shift_limit=0.0725,
+        scale_limit=0.125,
+        rotate_limit=15,
+        interpolation=1,
+        p=0.4),
+    dict(
+        type='OneOf',
+        transforms=[
+            dict(
+                type='RGBShift',
+                r_shift_limit=5,
+                g_shift_limit=5,
+                b_shift_limit=5,
+                p=1.0),
+            dict(
+                type='HueSaturationValue',
+                hue_shift_limit=10,
+                sat_shift_limit=15,
+                val_shift_limit=10,
+                p=1.0),
+            dict(
+                type='RandomBrightnessContrast',
+                brightness_limit=0.2, 
+                contrast_limit=0.2,
+                p=1.0
+            )
+        ],
+        p=0.2),
+    dict(
+        type="HorizontalFlip",
+        p=0.4
+    ),
+    dict(
+        type="VerticalFlip",
+        p=0.2
+    ),
+    dict(
+        type="RandomRotate90",
+        p=0.3
+    ),
+    dict(
+        type="OneOf",
+        transforms=[
+            dict(
+                type="Sequential",
+                transforms = [
+                    dict(
+                        type='Resize',
+                        height=800,
+                        width=800
+                    ),
+                    dict(
+                        type='RandomCrop',
+                        height=600,
+                        width=600
+                    )
+                ]
+            ),
+            dict(
+                type="Sequential",
+                transforms = [
+                    dict(
+                        type='Resize',
+                        height=1024,
+                        width=1024
+                    ),
+                    dict(
+                        type='RandomCrop',
+                        height=480,
+                        width=480
+                    )
+                ]
+            ),
+            dict(
+                type="Sequential",
+                transforms = [
+                    dict(
+                        type='Resize',
+                        height=640,
+                        width=640
+                    ),
+                    dict(
+                        type='CenterCrop',
+                        height=480,
+                        width=480
+                    )
+                ]
+            ),
+        ],
+        p=0.5
+    ),
+    # dict(type='JpegCompression', quality_lower=80, quality_upper=95, p=0.4),
+    # dict(type='ChannelShuffle', p=0.05),
+    dict(
+        type='OneOf',
+        transforms=[
+            dict(type='Blur', blur_limit=5, p=1.0),
+            dict(type='MedianBlur', blur_limit=5, p=1.0),
+            dict(type='GaussNoise', var_limit=25, p=1.0)
+        ],
+        p=0.2),
+]
+
+img_norm_cfg = dict(mean=[152, 130, 109], std=[54, 57, 58], to_rgb=True)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(type='Resize', img_scale=train_img_scale, keep_ratio=True, multiscale_mode='value'),
+    dict(
+        type='Albu',
+        transforms=albu_train_transforms,
+        bbox_params=dict(
+            type='BboxParams',
+            format='pascal_voc',
+            label_fields=['gt_labels'],
+            min_visibility=0.3,
+            filter_lost_elements=True),
+        keymap={
+            'img': 'image',
+            'gt_masks': 'masks',
+            'gt_bboxes': 'bboxes'
+        },
+        update_pad_shape=False,
+        skip_img_without_anno=True),
+    dict(type='Normalize', **img_norm_cfg),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks'],
+        meta_keys=('filename', 'ori_shape', 'img_shape', 'img_norm_cfg',
+                   'pad_shape', 'scale_factor'))
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=[(480, 480), (853,853)],
+        flip=True,
+        transforms=[
+            dict(type='Resize', keep_ratio=True),
+            dict(type='RandomFlip'),
+            dict(type='Normalize', **img_norm_cfg),
+            dict(type='Pad', size_divisor=32),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img']),
+        ])
+]
+
+dataset_type = 'CocoDataset'
+data_root = '/nfs1/aishwar1/im_rec_r2/data'
+data = dict(
+    samples_per_gpu=4,
+    workers_per_gpu=4,
+    train=dict(
+        type=dataset_type,
+        ann_file=f'{data_root}/train_v2/annotations_v2.json',
+        img_prefix= f'{data_root}/train_v2/images',
+        classes=classes,
+        pipeline=train_pipeline),
+    val=dict(
+        type=dataset_type,
+        ann_file=f'{data_root}/val_v2/annotations_v2.json',
+        img_prefix= f'{data_root}/val_v2/images',
+        classes=classes,
+        pipeline=test_pipeline),
+    test=dict(
+        type=dataset_type,
+        ann_file=f'{data_root}/val_v2/annotations_v2.json',
+        img_prefix= f'{data_root}/val_v2/images',
+        pipeline=test_pipeline)
+)
+
+evaluation = dict(interval=2, metric=['bbox', 'segm'])
+optimizer = dict(
+    type='AdamW',
+    lr=0.00001,
+    betas=(0.9, 0.999),
+    weight_decay=0.05,
+    paramwise_cfg=dict(
+        custom_keys=dict(
+            absolute_pos_embed=dict(decay_mult=0.0),
+            relative_position_bias_table=dict(decay_mult=0.0),
+            norm=dict(decay_mult=0.0))))
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
+lr_config = dict(
+    policy='step',
+    warmup='linear',
+    warmup_iters=500,
+    warmup_ratio=0.001,
+    step=[27, 33])
+runner = dict(type='EpochBasedRunner', max_epochs=100)
+checkpoint_config = dict(interval=1)
+
+wand_config={
+    "model": model,
+    "data": data,
+    "train_config": model["train_cfg"],
+    "test_config": model["test_cfg"]
+}
+log_config = dict(
+    interval=50,
+    hooks=[
+        dict(type='TextLoggerHook'),
+        dict(
+            type='WandbLoggerHook',
+            init_kwargs=dict(
+                project=project,
+                name=f"{experiment_name}",
+                config=wand_config,
+            ),
+        ),
+    ])
+
+custom_hooks = [dict(type='NumClassCheckHook')]
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+load_from = "/nfs1/aishwar1/im_rec_r2/pretrained_models/swin/swin_base_patch4_window12_384_22k.pth"
+work_dir = f'/scratch/aishwar1/v2/round2/{experiment_name}'
+resume_from = f'/scratch/aishwar1/v2/round2/{experiment_name}/latest.pth'
+workflow = [('train', 1)]
+opencv_num_threads = 0
+mp_start_method = 'fork'
+fp16 = None
+pretrained = "https://github.com/SwinTransformer/storage/releases/download/v1.0.2/cascade_mask_rcnn_swin_base_patch4_window7.pth"

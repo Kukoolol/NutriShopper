@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5e1; /* Light pastel green */
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #377a37; /* Dark green */
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background: linear-gradient(to bottom, #e6f5d3, #c7e7ae); /* Gradient from light to dark green */
+            padding: 20px;
+            float: left;
+        }
+
+        .cart {
+            background-color: #ffffff; /* White */
+            border: 1px solid #c7e7ae; /* Light green */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cart h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #377a37; /* Dark green */
+        }
+
+        .cart-item {
+            margin-bottom: 10px;
+        }
+
+        .cart-summary {
+            margin-top: 10px;
+        }
+
+        .cart-summary p {
+            margin: 5px 0;
+        }
+
+        /* Form and search box styles */
+        #foodForm {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #searchBox {
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #c7e7ae; /* Light green */
+            border-radius: 5px;
+        }
+
+        #searchBox:focus {
+            outline: none;
+            border-color: #377a37; /* Dark green */
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #4CAF50, #377a37); /* Gradient from green to dark green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(to bottom, #45a049, #377a37); /* Gradient from lighter green to dark green */
+        }
+
+        /* Suggestions and nutrition info styles */
+        #suggestions {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .suggestion {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #c7e7ae; /* Light green */
+            border-radius: 5px;
+            cursor: pointer;
+            max-width: 200px; /* Set the maximum width */
+            white-space: nowrap; /* Prevent wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Show ellipsis for overflowed text */
+        }
+
+        .suggestion:hover {
+            background-color: #377a37; /* Dark green */
+            color: white;
+        }
+
+        .suggestion:focus {
+            outline: none;
+        }
+
+        #nutritionInfo {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #nutritionInfo table {
+            margin: 0 auto;
+        }
+
+        #nutritionInfo button {
+            margin-top: 20px;
+        }
+
+        /* Webcam feed and capture button styles */
+        #video {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #captureBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #4CAF50, #377a37); /* Gradient from green to dark green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #captureBtn:hover {
+            background: linear-gradient(to bottom, #45a049, #377a37); /* Gradient from lighter green to dark green */
+        }
+
+        #textResult {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Recommendation button and LLM output styles */
+        #getRecommendationBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #4CAF50, #377a37); /* Gradient from green to dark green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #getRecommendationBtn:hover {
+            background: linear-gradient(to bottom, #45a049, #377a37); /* Gradient from lighter green to dark green */
+        }
+
+        #llm-output {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="cart">
+            <h2>Shopping Cart</h2>
+            <div class="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <div class="cart-summary">
+                <p>Total Calories: <span id="total-calories">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h1>Food Search</h1>
+        <form id="foodForm">
+            <input type="text" id="searchBox" name="searchBox" placeholder="Type to search...">
+            <input type="submit" value="Search">
+        </form>
+        <div id="suggestions"></div>
+        <div id="nutritionInfo"></div>
+        
+        <h1>Webcam Feed</h1>
+        <div>
+            <video id="video" width="640" height="480" autoplay></video>
+        </div>
+        <button id="captureBtn">Capture Image and Extract Text</button>
+        <div id="textResult"></div>
+
+        <form id="foodRecs">
+            <input type="hidden" id="hiddenInput" name="hiddenInputName" value="hiddenValue">
+            <button type="submit" id="getRecommendationBtn">Get other recommended foods</button>
+        </form>
+        
+        <div id="llm-output">
+            <button id="captureBtn2">Capture Image and Extract Text2</button>
+            <div id="textResult2"></div>
+        </div>        
+    </div>
+
+    <script>
+        // JavaScript code
+        $(document).ready(function(){
+            $('#searchBox').keyup(function(){
+                var query = $(this).val();
+                $.ajax({
+                    url: '/autocomplete',
+                    data: {query: query},
+                    success: function(response){
+                        $('#suggestions').empty();
+                        response.forEach(function(item){
+                            $('#suggestions').append('<button class="suggestion">' + item + '</button>');
+                        });
+
+                        $('.suggestion').click(function(){
+                            var selectedFood = $(this).text();
+                            search(selectedFood);
+                            $('#searchBox').val('');
+                            $('#suggestions').empty();
+                        });
+                    }
+                });
+            });
+
+            $('#foodForm').submit(function(event){
+                event.preventDefault();
+                var recs=document.getElementById("hiddenInput")
+                
+                var selectedFood = $('#searchBox').val();
+                recs.value=selectedFood;
+                console.log(recs.value);
+                search(selectedFood);
+                $('#searchBox').val('');
+            });
+
+            function search(food) {
+                $.ajax({
+                    url: '/search',
+                    data: {food: food},
+                    success: function(response){
+                        var nutritionInfo = '<h2>Nutritional Information for ' + response.name + '</h2>';
+                        nutritionInfo += '<table>';
+                        nutritionInfo += '<tr><th>Nutrient</th><th>Amount</th></tr>';
+                        nutritionInfo += '<tr><td>Calories</td><td>' + response.calories + ' kcal</td></tr>';
+                        nutritionInfo += '<tr><td>Protein</td><td>' + response.protein + ' g</td></tr>';
+                        nutritionInfo += '<tr><td>Carbohydrates</td><td>' + response.carbs + ' g</td></tr>';
+                        nutritionInfo += '<tr><td>Fat</td><td>' + response.fat + ' g</td></tr>';
+                        nutritionInfo += '</table>';
+                        nutritionInfo += '<button class="add-to-cart-btn" data-item-name="' + response.name + '" data-calories="' + response.calories + '" data-nutrients=\'' + JSON.stringify(response.nutrients) + '\'>Add to Cart</button>';
+                        $('#nutritionInfo').html(nutritionInfo);
+                    }
+                });
+            }
+
+            // Attach click event to Add to Cart buttons
+            $(document).on('click', '.add-to-cart-btn', function() {
+                var itemName = $(this).data('item-name');
+                var calories = $(this).data('calories');
+                var nutrients = $(this).data('nutrients');
+                addItemToCart(itemName, calories, nutrients);
+            });
+
+            // Function to add an item to the cart
+            function addItemToCart(itemName, calories, nutrients) {
+                // Create HTML for the item
+                var itemHTML = '<div class="cart-item">' +
+                                    '<p><strong>' + itemName + '</strong></p>' +
+                                    '<p>Calories: ' + calories + ' kcal</p>' +
+                                    
+                                    '<button class="remove-item-btn">Remove</button>' +
+                                '</div>';
+
+                // Add the item HTML to the cart
+                $('.cart-items').append(itemHTML);
+
+                // Update total calories
+                var totalCaloriesElement = $('#total-calories');
+                var currentCalories = parseInt(totalCaloriesElement.text());
+                totalCaloriesElement.text(currentCalories + calories);
+
+                // Update total nutrients
+                var totalNutrientsElement = $('#total-nutrients');
+                var currentNutrients = totalNutrientsElement.text();
+                if (currentNutrients === '---') {
+                    totalNutrientsElement.text(JSON.stringify(nutrients));
+                } else {
+                    var updatedNutrients = {};
+                    Object.keys(nutrients).forEach(function (key) {
+                        updatedNutrients[key] = nutrients[key] + JSON.parse(currentNutrients)[key];
+                    });
+                    totalNutrientsElement.text(JSON.stringify(updatedNutrients));
+                }
+            }
+
+            // Attach click event to Remove buttons
+            $(document).on('click', '.remove-item-btn', function() {
+                var item = $(this).closest('.cart-item');
+                var calories = parseInt(item.find('p:nth-child(2)').text().split(' ')[1]); // Extract calories from the second paragraph
+                item.remove();
+
+                // Update total calories
+                var totalCaloriesElement = $('#total-calories');
+                var currentCalories = parseInt(totalCaloriesElement.text());
+                totalCaloriesElement.text(currentCalories - calories);
+            });
+
+            var video = document.getElementById('video');
+            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                });
+            }
+
+            $('#captureBtn').click(function(){
+                var canvas = document.createElement('canvas');
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                var imgData = canvas.toDataURL('image/jpeg');
+
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width + 100, canvas.height + 100);
+               
+                console.log(  imgData);
+                $.ajax({
+                    url: '/capture',
+                    type: 'POST',
+                    data: {imageData: imgData},
+                    success: function(response){
+                        $('#textResult').text('Extracted Text: ' + response.text);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            $('#foodRecs').submit(function(event) {
+                console.log("Form submitted");
+                event.preventDefault(); // Prevent default form submission
+                
+                var formData = new FormData(this); // Create form data object
+                console.log(formData.values);
+                // Send form data to Flask route using AJAX
+                fetch('/llmoutput', {
+                    method: 'POST',
+                    body: formData // Use formData variable to send form data
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log(data);
+                    // If you want to do something after receiving a response, you can do it here
+                    // For example, you can submit the form programmatically:
+                    // event.target.submit();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle errors
+                });
+            });
+        });
+    </script>
+</body>
+</html>
